@@ -1,0 +1,4 @@
+Django>=5.0,<5.1
+django-environ>=0.11
+requests-oauthlib>=2.0
+environ

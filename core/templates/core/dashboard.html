@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Scavenger Hunt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/core.css' %}">
+</head>
+<body>
+    <div class="page">
+        <header class="brand">
+            <span class="mark">SCAV</span>
+            <span class="accent">2026</span>
+        </header>
+        <main class="card">
+            <section class="card__header">
+                <h1>Hi {{ participant.display_name|default:participant.ion_username }}</h1>
+                <p>You're signed in with your Ion account. We'll use this space to brief you on the hunt once challenges open.</p>
+            </section>
+            <section class="card__content">
+                <div class="detail-grid">
+                    <div>
+                        <span class="label">Ion username</span>
+                        <p>{{ participant.ion_username }}</p>
+                    </div>
+                    <div>
+                        <span class="label">Email</span>
+                        <p>{{ participant.email|default:"—" }}</p>
+                    </div>
+                    <div>
+                        <span class="label">Graduation year</span>
+                        <p>{{ participant.graduation_year|default:"—" }}</p>
+                    </div>
+                    <div>
+                        <span class="label">Admin access</span>
+                        <p>{% if participant.is_admin %}Yes{% else %}No{% endif %}</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <p>&copy; {% now "Y" %} SCAV 2026 · Crafted by students for students</p>
+        </footer>
+    </div>
+</body>
+</html>

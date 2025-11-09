@@ -1,2 +1,20 @@
-run.sh
 venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Django database
+db.sqlite3
+
+# Environment variables / secrets
+.env
+
+# Collected static files
+staticfiles/
+
+# IDE/system files
+.DS_Store
+
+# Track run.sh
+!run.sh

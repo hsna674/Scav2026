@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Scavenger Hunt Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/core.css' %}">
+</head>
+<body>
+    <div class="page">
+        <header class="brand">
+            <span class="mark">SCAV</span>
+            <span class="accent">2026</span>
+        </header>
+        <main class="card">
+            <section class="card__header">
+                <h1>Welcome to the Hunt</h1>
+                <p>Join the online scavenger hunt designed for our school community.</p>
+            </section>
+            <section class="card__content">
+                {% if missing_settings %}
+                    <div class="alert alert--warning">
+                        <h2>Configuration Needed</h2>
+                        <p>
+                            OAuth is not fully configured. Set the following environment variables:
+                        </p>
+                        <ul>
+                            {% for key in missing_settings %}
+                                <li><code>{{ key }}</code></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="cta">
+                    <h2>Sign in with Ion</h2>
+                    <p class="muted">Use your TJ Ion account to access scavenger hunt challenges.</p>
+                    {% if ion_ready %}
+                        <a class="button" href="{% url 'core:oauth_start' %}">Continue with Ion</a>
+                    {% else %}
+                        <a class="button button--disabled" role="button" aria-disabled="true">Continue with Ion</a>
+                    {% endif %}
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <p>&copy; {% now "Y" %} SCAV 2026 · Crafted by students for students</p>
+        </footer>
+    </div>
+</body>
+</html>
