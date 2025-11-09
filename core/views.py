@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.utils import timezone
+from django.utils import formats, timezone
 from requests_oauthlib import OAuth2Session
 
 from .models import Participant
@@ -74,12 +74,37 @@ def _get_logged_in_participant(request) -> Participant | None:
         return None
 
 
+def _format_est(dt: timezone.datetime | None) -> str | None:
+    if dt is None:
+        return None
+    localized = dt.astimezone(settings.SCAV_HUNT_TZ)
+    return formats.date_format(localized, "N j, Y g:i A") + " ET"
+
+
+def _hunt_window_status() -> tuple[bool, str, str]:
+    now = timezone.now().astimezone(settings.SCAV_HUNT_TZ)
+    start = settings.SCAV_HUNT_START
+    end = settings.SCAV_HUNT_END
+
+    if start and now < start:
+        message = "The hunt hasn't opened yet. Doors open on {when}.".format(
+            when=_format_est(start)
+        )
+        return False, "upcoming", message
+
+    if end and now > end:
+        message = "The hunt has ended. It closed on {when}.".format(when=_format_est(end))
+        return False, "ended", message
+
+    return True, "open", ""
+
+
 def login_view(request):
     """Render the landing/login page."""
 
     participant = _get_logged_in_participant(request)
     if participant:
-        return redirect("core:dashboard")
+        return redirect("core:challenge")
 
     missing_settings = _missing_oauth_settings()
     context = {
@@ -167,7 +192,7 @@ def oauth_callback(request):
 
     request.session[SESSION_PARTICIPANT_KEY] = participant.pk
 
-    return redirect("core:dashboard")
+    return redirect("core:challenge")
 
 
 def dashboard_view(request):
@@ -181,3 +206,26 @@ def dashboard_view(request):
         "participant": participant,
     }
     return render(request, "core/dashboard.html", context)
+
+
+def challenge_view(request):
+    """Display the challenge page or a closed notice based on hunt status."""
+
+    participant = _get_logged_in_participant(request)
+    if not participant:
+        return redirect("core:login")
+
+    is_open, state, message = _hunt_window_status()
+
+    base_context = {
+        "participant": participant,
+        "hunt_state": state,
+        "hunt_message": message,
+        "hunt_starts_at": _format_est(settings.SCAV_HUNT_START),
+        "hunt_ends_at": _format_est(settings.SCAV_HUNT_END),
+    }
+
+    if is_open or participant.is_admin:
+        return render(request, "core/challenge.html", base_context)
+
+    return render(request, "core/challenge_closed.html", base_context, status=403)

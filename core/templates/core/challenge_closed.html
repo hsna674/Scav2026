@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Scavenger Hunt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/core.css' %}">
+</head>
+<body>
+    <div class="page">
+        <header class="brand">
+            <span class="mark">SCAV</span>
+            <span class="accent">2026</span>
+        </header>
+        <main class="card">
+            <section class="card__header">
+                <h1>The hunt is {{ hunt_state }}</h1>
+                <p>{{ hunt_message }}</p>
+            </section>
+            <section class="card__content">
+                <div class="cta">
+                    {% if hunt_starts_at %}
+                        <p>The scavenger hunt opens on <strong>{{ hunt_starts_at }}</strong>.</p>
+                    {% endif %}
+                    {% if hunt_ends_at %}
+                        <p>Once open, it runs until <strong>{{ hunt_ends_at }}</strong>.</p>
+                    {% endif %}
+                    <p class="muted">Check back soon — we’re excited to hunt with you!</p>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <p>&copy; {% now "Y" %} SCAV 2026 · Crafted by students for students</p>
+        </footer>
+    </div>
+</body>
+</html>

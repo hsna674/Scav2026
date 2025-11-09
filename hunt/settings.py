@@ -1,7 +1,9 @@
 """Project settings for the Scavenger Hunt site."""
 
+from datetime import datetime
 import os
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import environ
 from django.core.exceptions import ImproperlyConfigured
@@ -34,6 +36,30 @@ ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS")
 CSRF_TRUSTED_ORIGINS = env.list(
     "DJANGO_CSRF_TRUSTED_ORIGINS", default=["http://localhost", "https://localhost"]
 )
+
+
+SCAV_HUNT_TZ = ZoneInfo("America/New_York")
+
+
+def _read_hunt_datetime(setting_name: str) -> datetime | None:
+    value = env(setting_name, default=None)
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError as exc:  # pragma: no cover - configuration error path
+        raise ImproperlyConfigured(
+            f"{setting_name} must be an ISO 8601 datetime (e.g. 2026-03-15T08:00:00)."
+        ) from exc
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=SCAV_HUNT_TZ)
+    else:
+        parsed = parsed.astimezone(SCAV_HUNT_TZ)
+    return parsed
+
+
+SCAV_HUNT_START = _read_hunt_datetime("SCAV_HUNT_START")
+SCAV_HUNT_END = _read_hunt_datetime("SCAV_HUNT_END")
 
 
 # Application definition

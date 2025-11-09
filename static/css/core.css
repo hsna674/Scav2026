@@ -154,6 +154,16 @@ body {
     max-width: 32ch;
 }
 
+.challenge-placeholder {
+    display: grid;
+    gap: 1rem;
+}
+
+.challenge-placeholder h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
 .button {
     display: inline-flex;
     align-items: center;

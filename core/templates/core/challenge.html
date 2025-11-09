@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Scavenger Hunt Challenges</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/core.css' %}">
+</head>
+<body>
+    <div class="page">
+        <header class="brand">
+            <span class="mark">SCAV</span>
+            <span class="accent">2026</span>
+        </header>
+        <main class="card">
+            <section class="card__header">
+                <h1>Challenge Hub</h1>
+                <p>Welcome back {{ participant.display_name|default:participant.ion_username }}. Your mission awaits.</p>
+            </section>
+            <section class="card__content">
+                <div class="challenge-placeholder">
+                    <h2>Coming Soon</h2>
+                    <p>We’re putting the finishing touches on the full scavenger hunt experience. As soon as the event launches, you’ll find your team’s objectives here.</p>
+                    <p class="muted">Keep an eye out: the hunt runs {% if hunt_starts_at %}from <strong>{{ hunt_starts_at }}</strong>{% endif %}{% if hunt_ends_at %} to <strong>{{ hunt_ends_at }}</strong>{% endif %}.</p>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <p>&copy; {% now "Y" %} SCAV 2026 · Crafted by students for students</p>
+        </footer>
+    </div>
+</body>
+</html>
