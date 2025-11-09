@@ -41,7 +41,11 @@
                         <span class="profile-menu__label">{{ participant.display_name|default:participant.ion_username }}</span>
                     </button>
                     <div class="profile-menu__popover" role="menu">
-                        <p>Profile actions coming soon.</p>
+                        <p class="profile-menu__hint">Signed in as <strong>{{ participant.display_name|default:participant.ion_username }}</strong></p>
+                        <form method="post" action="{% url 'core:logout' %}" class="profile-menu__actions">
+                            {% csrf_token %}
+                            <button type="submit" class="profile-menu__button">Log out</button>
+                        </form>
                     </div>
                 </div>
             </div>

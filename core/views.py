@@ -8,6 +8,7 @@ from django.db.models import Count
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.utils import formats, timezone
+from django.views.decorators.http import require_POST
 from requests_oauthlib import OAuth2Session
 
 from .models import Participant
@@ -280,3 +281,13 @@ def challenge_view(request):
         return render(request, "core/challenge.html", base_context)
 
     return render(request, "core/challenge_closed.html", base_context, status=403)
+
+
+@require_POST
+def logout_view(request):
+    """Clear OAuth-related session data and send the user back to login."""
+
+    for key in [SESSION_STATE_KEY, SESSION_TOKEN_KEY, SESSION_PARTICIPANT_KEY]:
+        request.session.pop(key, None)
+
+    return redirect("core:login")

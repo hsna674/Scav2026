@@ -10,4 +10,5 @@ urlpatterns = [
     path("complete/ion/", views.oauth_callback, name="oauth_callback"),
     path("dashboard/", views.dashboard_view, name="dashboard"),
     path("challenge/", views.challenge_view, name="challenge"),
+    path("logout/", views.logout_view, name="logout"),
 ]
