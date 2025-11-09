@@ -340,6 +340,11 @@ body.layout {
     transition: transform 0.2s ease, background 0.2s ease;
 }
 
+.icon-button__icon svg {
+    width: 20px;
+    height: 20px;
+}
+
 .profile-menu {
     position: relative;
 }

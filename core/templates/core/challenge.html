@@ -75,7 +75,19 @@
             </div>
             <div class="site-nav__right">
                 <button id="theme-toggle" class="icon-button" type="button" aria-label="Toggle theme">
-                    <span class="icon-button__icon" data-theme-icon>☀️</span>
+                    <span class="icon-button__icon" data-theme-icon aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="4.5"></circle>
+                            <path d="M12 2v2"></path>
+                            <path d="M12 20v2"></path>
+                            <path d="M4.93 4.93l1.42 1.42"></path>
+                            <path d="M17.66 17.66l1.41 1.41"></path>
+                            <path d="M2 12h2"></path>
+                            <path d="M20 12h2"></path>
+                            <path d="M4.93 19.07l1.42-1.42"></path>
+                            <path d="M17.66 6.34l1.41-1.41"></path>
+                        </svg>
+                    </span>
                 </button>
                 <div class="profile-menu">
                     <button class="profile-menu__trigger" type="button" aria-haspopup="true" aria-expanded="false">
@@ -262,11 +274,16 @@
         const STORAGE_KEY = "scav-theme";
         const body = document.body;
 
+        const THEME_ICONS = {
+            light: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M4.93 4.93l1.42 1.42"></path><path d="M17.66 17.66l1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="M4.93 19.07l1.42-1.42"></path><path d="M17.66 6.34l1.41-1.41"></path></svg>`,
+            dark: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"></path></svg>`
+        };
+
         function applyTheme(theme) {
             body.dataset.theme = theme;
             const icon = document.querySelector('[data-theme-icon]');
             if (icon) {
-                icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+                icon.innerHTML = theme === 'dark' ? THEME_ICONS.dark : THEME_ICONS.light;
             }
         }
 
