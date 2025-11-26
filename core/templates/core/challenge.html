@@ -55,6 +55,8 @@
         {% endif %}
     </div>
     <div class="page page--challenge">
+        <!-- TODO: Remove temporary snow effect overlay after the holiday event -->
+        <div class="snow-overlay" aria-hidden="true"></div>
         <header class="site-nav">
             <div class="site-nav__inner">
             <div class="site-nav__left">
@@ -310,6 +312,28 @@
             const icon = document.querySelector('[data-theme-icon]');
             if (icon) {
                 icon.innerHTML = theme === 'dark' ? THEME_ICONS.dark : THEME_ICONS.light;
+            }
+        }
+
+        const SNOWFLAKE_COUNT = 80;
+        const snowOverlay = document.querySelector('.snow-overlay');
+        if (snowOverlay) {
+            for (let index = 0; index < SNOWFLAKE_COUNT; index += 1) {
+                const flake = document.createElement('span');
+                flake.className = 'snowflake';
+                const size = (Math.random() * 4) + 2;
+                const duration = (Math.random() * 8) + 8;
+                const delay = Math.random() * 8;
+                const opacity = Math.random() * 0.5 + 0.4;
+                const drift = (Math.random() * 2 - 1) * 4;
+                const xPosition = Math.random() * 100;
+                flake.style.setProperty('--size', `${size}px`);
+                flake.style.setProperty('--duration', `${duration}s`);
+                flake.style.setProperty('--delay', `${delay}s`);
+                flake.style.setProperty('--opacity', opacity.toFixed(2));
+                flake.style.setProperty('--drift', `${drift.toFixed(2)}rem`);
+                flake.style.setProperty('--x-position', `${xPosition.toFixed(2)}%`);
+                snowOverlay.appendChild(flake);
             }
         }
 

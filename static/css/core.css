@@ -780,6 +780,49 @@ body[data-theme="dark"] .challenge-card__admin-actions {
     text-decoration: underline;
 }
 
+/* TODO: Remove temporary snow effect styles after the holiday event */
+.snow-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 20;
+}
+
+.snowflake {
+    --size: 6px;
+    --duration: 10s;
+    --delay: 0s;
+    --opacity: 0.75;
+    --x-position: 50%;
+    --drift: 0.5rem;
+    position: absolute;
+    top: -12vh;
+    left: var(--x-position);
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+    opacity: var(--opacity);
+    animation: snowfall var(--duration) linear var(--delay) infinite;
+    transform: translate3d(0, -12vh, 0);
+}
+
+body[data-theme="dark"] .snowflake {
+    background: rgba(226, 232, 240, 0.85);
+    box-shadow: 0 0 16px rgba(148, 163, 184, 0.45);
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translate3d(0, -12vh, 0);
+    }
+    100% {
+        transform: translate3d(var(--drift), 110vh, 0);
+    }
+}
+
 .challenge-card__prereqs {
     border-radius: 12px;
     padding: 0.75rem 0.9rem;
