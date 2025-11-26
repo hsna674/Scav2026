@@ -775,6 +775,11 @@ body[data-theme="dark"] .challenge-card__admin-actions {
     overflow-wrap: anywhere;
 }
 
+.challenge-card__description a {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
 .challenge-card__prereqs {
     border-radius: 12px;
     padding: 0.75rem 0.9rem;

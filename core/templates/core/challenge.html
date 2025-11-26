@@ -194,7 +194,7 @@
                                                             </div>
                                                         </div>
                                                     </header>
-                                                    <p class="challenge-card__description">{{ challenge.description }}</p>
+                                                    <p class="challenge-card__description">{{ challenge.description|urlize }}</p>
 
                                                     {% if challenge.prerequisites %}
                                                         <div class="challenge-card__prereqs">
